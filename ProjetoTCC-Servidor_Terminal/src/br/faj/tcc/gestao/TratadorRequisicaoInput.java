@@ -1,4 +1,4 @@
-package br.faj.tcc.nucleo;
+package br.faj.tcc.gestao;
 
 import java.awt.AWTException;
 import java.awt.Robot;
