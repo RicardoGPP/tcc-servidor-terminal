@@ -13,17 +13,17 @@ public abstract class Visao<T1 extends Controle<? extends Visao<T1, T2>>, T2 ext
 	
 	protected T1 getControle()
 	{
-		return controle;
+		return this.controle;
 	}
 
 	protected T2 getPainel()
 	{
-		return painel;
+		return this.painel;
 	}
 
 	protected Scene getCena()
 	{
-		return cena;
+		return this.cena;
 	}
 
 	public Visao()

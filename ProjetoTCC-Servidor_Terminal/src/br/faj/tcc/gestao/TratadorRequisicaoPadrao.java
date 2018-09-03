@@ -21,11 +21,11 @@ import br.faj.tcc.servidor.util.Requisicao;
 	@author Ricardo Giovani Piantavinha Perandré
 	@version 1.0
 */
-public class TratadorRequisicaoInput extends TratadorRequisicao<Mensagem>
+public class TratadorRequisicaoPadrao extends TratadorRequisicao<Mensagem>
 {	
 	private Teclado teclado;
 	
-	public TratadorRequisicaoInput(Fila<Requisicao<Mensagem>> requisicoes, TratadorEvento<Mensagem> tratadorEvento)
+	public TratadorRequisicaoPadrao(Fila<Requisicao<Mensagem>> requisicoes, TratadorEvento<Mensagem> tratadorEvento)
 	{
 		super(requisicoes, tratadorEvento);
 		this.teclado = null;
