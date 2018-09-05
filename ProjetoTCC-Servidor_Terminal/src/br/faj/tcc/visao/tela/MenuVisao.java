@@ -5,25 +5,36 @@ import java.util.Date;
 import br.faj.tcc.controle.MenuControle;
 import br.faj.tcc.gestao.Comando;
 import br.faj.tcc.servidor.util.Fila;
+import br.faj.tcc.util.Alerta;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
 
 public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnable
-{
-	private Fila<Comando> comandos;
+{	
+	private Fila<Comando> comandos;	
+	private HBox hboxMenu;
+	private VBox vboxStatus;
+	private Label labelStatus;
+	private Label labelDataHoraStatus;
 	private HBox hboxBotoes;
 	private Button buttonIniciarParar;
 	private Button buttonConfiguracao;
 	private TextArea textAreaLog;
+
+	public enum ModoTela
+	{
+		SERVIDOR_EM_EXECUCAO,
+		SERVIDOR_PARADO
+	}
 	
 	public MenuVisao()
 	{
@@ -40,7 +51,11 @@ public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnab
 	}
 	
 	protected void instanciarComponentes()
-	{
+	{		
+		this.hboxMenu = new HBox();
+		this.vboxStatus = new VBox();
+		this.labelStatus = new Label();
+		this.labelDataHoraStatus = new Label();
 		this.hboxBotoes = new HBox();
 		this.buttonIniciarParar = new Button();
 		this.buttonConfiguracao = new Button();
@@ -49,20 +64,40 @@ public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnab
 	
 	protected void definirEstrutura()
 	{
-		this.setTitle("Servidor TCP");
-		this.setWidth(450);
-		this.setHeight(300);
+		getCena().getStylesheets().add(MenuVisao.class.getResource("../estilo/MenuVisao.css").toExternalForm());
 		
-		this.hboxBotoes.setPadding(new Insets(5));
-		this.hboxBotoes.setSpacing(5);
-		this.getPainel().setTop(this.hboxBotoes);
+		this.setTitle("Servidor");
+		this.setWidth(500);
+		this.setHeight(320);
+		this.setResizable(false);
 		
+		this.hboxMenu.setId("hbox-menu");
+		this.getPainel().setTop(this.hboxMenu);		
+		
+		this.vboxStatus.setId("vbox-status");
+		this.hboxMenu.getChildren().add(this.vboxStatus);
+		
+		this.labelStatus.setId("label-status");
+		this.labelStatus.setText("Parado");
+		this.labelStatus.setStyle("-fx-text-fill: #FF0000");
+		this.vboxStatus.getChildren().add(this.labelStatus);
+		
+		this.labelDataHoraStatus.setId("label-data_hora_status");
+		this.labelDataHoraStatus.setText("Aguardando início do servidor.");
+		this.vboxStatus.getChildren().add(this.labelDataHoraStatus);
+		
+		this.hboxBotoes.setId("hbox-botoes");
+		this.hboxMenu.getChildren().add(this.hboxBotoes);
+		
+		this.buttonIniciarParar.setId("button-iniciar_parar");
 		this.buttonIniciarParar.setText("Iniciar");
 		this.hboxBotoes.getChildren().add(this.buttonIniciarParar);
 		
+		this.buttonConfiguracao.setId("button-configuracao");
 		this.buttonConfiguracao.setText("Configurações");
-		this.hboxBotoes.getChildren().add(this.buttonConfiguracao);
+		this.hboxBotoes.getChildren().add(this.buttonConfiguracao);		
 		
+		this.textAreaLog.setId("textarea-log");
 		this.textAreaLog.setEditable(false);
 		this.getPainel().setCenter(this.textAreaLog);
 	}
@@ -101,14 +136,24 @@ public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnab
 		this.textAreaLog.setScrollTop(Double.MAX_VALUE);
 	}
 	
-	public void mudarTextoBotaoIniciarParar(String texto)
+	public void definirModoTela(ModoTela modoTela)
 	{
-		this.buttonIniciarParar.setText(texto);
-	}
-	
-	public void mudarEstadoBotaoConfiguracao(boolean ativo)
-	{
-		this.buttonConfiguracao.setDisable(!ativo);
+		if (modoTela == ModoTela.SERVIDOR_PARADO)
+		{
+			this.labelStatus.setText("Parado");
+			this.labelStatus.setStyle("-fx-text-fill: #FF0000");
+			this.labelDataHoraStatus.setText("Aguardando início do servidor.");
+			this.buttonIniciarParar.setText("Iniciar");
+			this.buttonConfiguracao.setDisable(false);
+		} else if (modoTela == ModoTela.SERVIDOR_EM_EXECUCAO)
+		{
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");			
+			this.labelStatus.setText("Em execução");
+			this.labelStatus.setStyle("-fx-text-fill: #4876FF");
+			this.labelDataHoraStatus.setText("Iniciado em: " + simpleDateFormat.format(new Date()) + ".");
+			this.buttonIniciarParar.setText("Parar");
+			this.buttonConfiguracao.setDisable(true);
+		}
 	}
 
 	private EventHandler<ActionEvent> eventoCliqueBotaoIniciarParar()
@@ -125,11 +170,7 @@ public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnab
 						getControle().pararServidor();
 				} catch (Exception e)
 				{
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Erro");
-					alert.setHeaderText("Ocorreu um erro no sistema.");
-					alert.setContentText("Erro: " + e.getMessage() + ".");
-					alert.showAndWait();
+					Alerta.mostrar(AlertType.ERROR, "Ocorreu um erro no sistema", "Erro: " + e.getMessage() + ".");
 				}
 			}
 		};
@@ -141,7 +182,7 @@ public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnab
 		{
 			public void handle(ActionEvent actionEvent)
 			{
-				
+				Alerta.mostrar(AlertType.INFORMATION, "Teste", "Teste");
 			}
 		};
 	}
@@ -156,13 +197,10 @@ public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnab
 				{
 					if (getControle().servidorEstaEmExecucao())
 						getControle().pararServidor();
+					System.exit(0);
 				} catch (Exception e)
 				{
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Erro");
-					alert.setHeaderText("Ocorreu um erro no sistema.");
-					alert.setContentText("Erro: " + e.getMessage() + ".");
-					alert.showAndWait();
+					Alerta.mostrar(AlertType.ERROR, "Ocorreu um erro no sistema", "Erro: " + e.getMessage() + ".");
 				}
 			}
 		};

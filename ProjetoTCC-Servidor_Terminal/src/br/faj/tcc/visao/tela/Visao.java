@@ -31,6 +31,7 @@ public abstract class Visao<T1 extends Controle<? extends Visao<T1, T2>>, T2 ext
 		this.controle = this.definirControle();
 		this.painel = this.definirPainel();
 		this.cena = new Scene(this.painel);
+		this.cena.getStylesheets().add(Visao.class.getResource("../estilo/Geral.css").toExternalForm());
 		this.setScene(this.cena);
 		this.instanciarComponentes();
 		this.definirEstrutura();

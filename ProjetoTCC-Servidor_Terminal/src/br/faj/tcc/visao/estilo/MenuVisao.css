@@ -1,0 +1,41 @@
+#hbox-menu
+{
+	-fx-padding: 5px;
+}
+
+#vbox-status
+{
+	-fx-pref-width: 325px;
+	-fx-spacing: -3px;
+}
+
+#label-status
+{
+	-fx-font-weight: bold;
+}
+
+#hbox-botoes
+{
+	-fx-pref-width: 150px;
+	-fx-spacing: 5px;
+	-fx-alignment: center-right;
+}
+
+#button-iniciar_parar
+{
+	-fx-pref-width: 50px;
+}
+
+#button-configuracao
+{
+	-fx-pref-width: 95px;
+}
+
+#textarea-log
+{
+	-fx-control-inner-background: #000000;
+	-fx-font-family: Consolas;
+	-fx-highlight-fill: #00FF00;
+	-fx-highlight-text-fill: #000000;
+	-fx-text-fill: #00FF00;
+}

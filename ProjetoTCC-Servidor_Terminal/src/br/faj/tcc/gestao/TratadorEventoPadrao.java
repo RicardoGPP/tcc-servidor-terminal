@@ -6,6 +6,7 @@ import br.faj.tcc.compartilhado.Mensagem;
 import br.faj.tcc.servidor.gestao.TratadorEvento;
 import br.faj.tcc.servidor.util.Requisicao;
 import br.faj.tcc.visao.tela.MenuVisao;
+import br.faj.tcc.visao.tela.MenuVisao.ModoTela;
 
 public class TratadorEventoPadrao extends TratadorEvento<Mensagem>
 {
@@ -34,8 +35,7 @@ public class TratadorEventoPadrao extends TratadorEvento<Mensagem>
 			public void executar()
 			{
 				getMenuVisao().escreverLog("Servidor iniciado na porta " + serverSocket.getLocalPort() + ".");
-				getMenuVisao().mudarTextoBotaoIniciarParar("Parar");
-				getMenuVisao().mudarEstadoBotaoConfiguracao(false);
+				getMenuVisao().definirModoTela(ModoTela.SERVIDOR_EM_EXECUCAO);
 			}
 		});		
 	}
@@ -102,8 +102,7 @@ public class TratadorEventoPadrao extends TratadorEvento<Mensagem>
 			public void executar()
 			{
 				getMenuVisao().escreverLog("Servidor parado.");
-				getMenuVisao().mudarTextoBotaoIniciarParar("Iniciar");
-				getMenuVisao().mudarEstadoBotaoConfiguracao(true);	
+				getMenuVisao().definirModoTela(ModoTela.SERVIDOR_PARADO);
 			}
 		});		
 	}

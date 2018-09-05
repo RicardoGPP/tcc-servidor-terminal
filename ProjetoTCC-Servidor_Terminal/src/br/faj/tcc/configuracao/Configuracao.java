@@ -25,6 +25,8 @@ public class Configuracao implements Serializable
 	
 	private static Configuracao instancia = null;
 	private int porta;
+	private boolean tocarSomAoTratar;
+	private boolean notificarAoTratar;
 
 	public int getPorta()
 	{
@@ -33,12 +35,34 @@ public class Configuracao implements Serializable
 
 	public void setPorta(int porta)
 	{
-		this.porta = (porta < 0) ? 0 : (porta > 65536) ? 65536 : porta;
+		this.porta = porta;
+	}
+	
+	protected boolean isTocarSomAoTratar()
+	{
+		return tocarSomAoTratar;
+	}
+
+	protected void setTocarSomAoTratar(boolean tocarSomAoTratar)
+	{
+		this.tocarSomAoTratar = tocarSomAoTratar;
+	}
+
+	protected boolean isNotificarAoTratar()
+	{
+		return notificarAoTratar;
+	}
+
+	protected void setNotificarAoTratar(boolean notificarAoTratar)
+	{
+		this.notificarAoTratar = notificarAoTratar;
 	}
 
 	private Configuracao()
 	{
 		this.porta = 5555;
+		this.tocarSomAoTratar = true;
+		this.notificarAoTratar = true;
 	}
 	
 	public void salvar() throws IOException
