@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 import br.faj.tcc.compartilhado.Mensagem;
+import br.faj.tcc.configuracao.Configuracao;
 import br.faj.tcc.servidor.gestao.TratadorEvento;
 import br.faj.tcc.servidor.gestao.TratadorRequisicao;
 import br.faj.tcc.servidor.util.Fila;
@@ -45,8 +46,8 @@ public class TratadorRequisicaoPadrao extends TratadorRequisicao<Mensagem>
 					requisicao.escrever(new Mensagem(false, "O conteúdo da mensagem é inválido."));
 				else
 				{
-					this.digitar(mensagem.getConteudo());
-					requisicao.escrever(new Mensagem(true, "Teste"));
+					this.digitar(mensagem.getConteudo());	
+					requisicao.escrever(new Mensagem(true, ""));
 				}
 			}			
 		} catch (ClassNotFoundException e)
@@ -67,7 +68,15 @@ public class TratadorRequisicaoPadrao extends TratadorRequisicao<Mensagem>
 	private void digitar(String conteudo)
 	{
 		for (int i = 0; i < conteudo.length(); i++)
-			this.teclado.pressionar(conteudo.charAt(i));			
+			this.teclado.pressionar(conteudo.charAt(i));
+		try
+		{
+			if (Configuracao.recuperar().getTeclaAposTratar() != null)
+				this.teclado.pressionar(Configuracao.recuperar().getTeclaAposTratar().getSimbolo());
+		} catch (ClassNotFoundException | IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private class Teclado
@@ -146,6 +155,9 @@ public class TratadorRequisicaoPadrao extends TratadorRequisicao<Mensagem>
 				case 'X': return KeyEvent.VK_X;
 				case 'Y': return KeyEvent.VK_Y;
 				case 'Z': return KeyEvent.VK_Z;
+				case '\n': return KeyEvent.VK_ENTER;
+				case '\t': return KeyEvent.VK_TAB;
+				case ' ': return KeyEvent.VK_SPACE;				
 				default: return -1;
 			}
 		}

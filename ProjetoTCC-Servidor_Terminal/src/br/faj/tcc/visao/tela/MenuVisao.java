@@ -64,7 +64,7 @@ public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnab
 	
 	protected void definirEstrutura()
 	{
-		getCena().getStylesheets().add(MenuVisao.class.getResource("../estilo/MenuVisao.css").toExternalForm());
+		getCena().getStylesheets().add(MenuVisao.class.getResource(DIRETORIO_ESTILO +  "/MenuVisao.css").toExternalForm());
 		
 		this.setTitle("Servidor");
 		this.setWidth(500);
@@ -182,7 +182,8 @@ public class MenuVisao extends Visao<MenuControle, BorderPane> implements Runnab
 		{
 			public void handle(ActionEvent actionEvent)
 			{
-				Alerta.mostrar(AlertType.INFORMATION, "Teste", "Teste");
+				ConfiguracaoVisao configuracaoVisao = new ConfiguracaoVisao();
+				configuracaoVisao.showAndWait();
 			}
 		};
 	}

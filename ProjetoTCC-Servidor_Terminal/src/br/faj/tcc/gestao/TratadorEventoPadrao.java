@@ -1,10 +1,17 @@
 package br.faj.tcc.gestao;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import br.faj.tcc.compartilhado.Mensagem;
+import br.faj.tcc.configuracao.Configuracao;
 import br.faj.tcc.servidor.gestao.TratadorEvento;
 import br.faj.tcc.servidor.util.Requisicao;
+import br.faj.tcc.util.Som;
 import br.faj.tcc.visao.tela.MenuVisao;
 import br.faj.tcc.visao.tela.MenuVisao.ModoTela;
 
@@ -80,6 +87,14 @@ public class TratadorEventoPadrao extends TratadorEvento<Mensagem>
 			public void executar()
 			{
 				getMenuVisao().escreverLog("Requisição tratada.");	
+				try
+				{
+					if (Configuracao.recuperar().isTocarSomAoTratar())
+						Som.tocar("beep.wav");
+				} catch (ClassNotFoundException | IOException | LineUnavailableException | UnsupportedAudioFileException | InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		});		
 	}

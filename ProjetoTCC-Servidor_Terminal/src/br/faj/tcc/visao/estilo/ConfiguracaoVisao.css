@@ -1,0 +1,35 @@
+#borderpane-painel_geral
+{
+	-fx-padding: 10px;
+}
+
+#vbox-formulario
+{
+	-fx-spacing: 10px;
+}
+
+#label-porta, #label-ao_tratar_requisicao
+{
+	-fx-font-weight: bold;
+}
+
+#vbox-ao_tratar_requisicao
+{
+	-fx-spacing: 5px;
+}
+
+#hbox-pressionar_tecla
+{
+	-fx-spacing: 2px;
+}
+
+#combobox-tecla
+{
+	-fx-pref-width: 140px;
+}
+
+#hbox-botoes
+{
+	-fx-spacing: 5px;
+	-fx-alignment: center-right;
+}

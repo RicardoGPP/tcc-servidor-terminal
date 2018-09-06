@@ -15,7 +15,7 @@ import java.io.Serializable;
 	<b>recuperar()</b> para se obter uma instância desta classe.
 	
 	@author Ricardo Giovani Piantavinha Perandré
-	@version 1.0
+	@version 1.1
 */
 public class Configuracao implements Serializable
 {
@@ -27,7 +27,39 @@ public class Configuracao implements Serializable
 	private int porta;
 	private boolean tocarSomAoTratar;
 	private boolean notificarAoTratar;
+	private Tecla teclaAposTratar;
 
+	public enum Tecla
+	{
+		ENTER("Enter", '\n'),
+		TAB("Tab", '\t'),
+		ESPACO("Espaço", ' ');
+		
+		private String nome;
+		private char simbolo;
+		
+		public String getNome()
+		{
+			return this.nome;
+		}
+		
+		public char getSimbolo()
+		{
+			return this.simbolo;
+		}
+		
+		private Tecla(String nome, char simbolo)
+		{
+			this.nome = nome;
+			this.simbolo = simbolo;
+		}
+		
+		public String toString()
+		{
+			return this.nome;
+		}
+	}
+	
 	public int getPorta()
 	{
 		return porta;
@@ -38,31 +70,42 @@ public class Configuracao implements Serializable
 		this.porta = porta;
 	}
 	
-	protected boolean isTocarSomAoTratar()
+	public boolean isTocarSomAoTratar()
 	{
 		return tocarSomAoTratar;
 	}
 
-	protected void setTocarSomAoTratar(boolean tocarSomAoTratar)
+	public void setTocarSomAoTratar(boolean tocarSomAoTratar)
 	{
 		this.tocarSomAoTratar = tocarSomAoTratar;
 	}
 
-	protected boolean isNotificarAoTratar()
+	public boolean isNotificarAoTratar()
 	{
 		return notificarAoTratar;
 	}
 
-	protected void setNotificarAoTratar(boolean notificarAoTratar)
+	public void setNotificarAoTratar(boolean notificarAoTratar)
 	{
 		this.notificarAoTratar = notificarAoTratar;
+	}
+	
+	public Tecla getTeclaAposTratar()
+	{
+		return teclaAposTratar;
+	}
+
+	public void setTeclaAposTratar(Tecla teclaAposTratar)
+	{
+		this.teclaAposTratar = teclaAposTratar;
 	}
 
 	private Configuracao()
 	{
 		this.porta = 5555;
-		this.tocarSomAoTratar = true;
+		this.tocarSomAoTratar = false;
 		this.notificarAoTratar = true;
+		this.teclaAposTratar = Tecla.ESPACO;
 	}
 	
 	public void salvar() throws IOException

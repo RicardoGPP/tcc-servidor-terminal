@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 
 public abstract class Visao<T1 extends Controle<? extends Visao<T1, T2>>, T2 extends Parent> extends Stage
 {
+	protected static final String DIRETORIO_ESTILO = "../estilo";
+	
 	private T1 controle;
 	private T2 painel;
 	private Scene cena;
