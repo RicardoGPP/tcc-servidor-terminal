@@ -153,8 +153,11 @@ public class ConfiguracaoVisao extends Visao<ConfiguracaoControle, BorderPane>
 		this.checkboxTocarSom.setSelected(configuracao.isTocarSomAoTratar());
 		this.checkboxNotificar.setSelected(configuracao.isNotificarAoTratar());
 		if (configuracao.getTeclaAposTratar() == null)
+		{
 			this.checkboxPressionarTecla.setSelected(false);
-		else
+			this.comboboxTecla.getSelectionModel().select(null);
+			this.comboboxTecla.setDisable(true);
+		} else
 		{
 			this.checkboxPressionarTecla.setSelected(true);
 			this.comboboxTecla.getSelectionModel().select(configuracao.getTeclaAposTratar());

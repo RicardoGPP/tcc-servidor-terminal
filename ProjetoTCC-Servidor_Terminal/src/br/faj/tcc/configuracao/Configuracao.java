@@ -103,9 +103,9 @@ public class Configuracao implements Serializable
 	private Configuracao()
 	{
 		this.porta = 5555;
-		this.tocarSomAoTratar = false;
+		this.tocarSomAoTratar = true;
 		this.notificarAoTratar = true;
-		this.teclaAposTratar = Tecla.ESPACO;
+		this.teclaAposTratar = null;
 	}
 	
 	public void salvar() throws IOException
