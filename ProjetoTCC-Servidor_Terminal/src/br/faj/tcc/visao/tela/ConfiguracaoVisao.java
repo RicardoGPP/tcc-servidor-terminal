@@ -93,11 +93,11 @@ public class ConfiguracaoVisao extends Visao<ConfiguracaoControle, BorderPane>
 		this.vboxFormulario.getChildren().add(this.vboxAoTratarRequisicao);
 		
 		this.labelAoTratarRequisicao.setId("label-ao_tratar_requisicao");
-		this.labelAoTratarRequisicao.setText("Ao tratar requisição:");
+		this.labelAoTratarRequisicao.setText("Ao tratar uma requisição:");
 		this.vboxAoTratarRequisicao.getChildren().add(this.labelAoTratarRequisicao);
 		
 		this.checkboxTocarSom.setId("checkbox-tocar_som");
-		this.checkboxTocarSom.setText("Tocar som de \"beep\"");
+		this.checkboxTocarSom.setText("Tocar um som de \"beep\"");
 		this.vboxAoTratarRequisicao.getChildren().add(this.checkboxTocarSom);
 		
 		this.checkboxNotificar.setId("checkbox-notificar");
@@ -177,15 +177,15 @@ public class ConfiguracaoVisao extends Visao<ConfiguracaoControle, BorderPane>
 	private void formularioEValido() throws FormularioInvalidoException
 	{				
 		if (this.textfieldPorta.getText().trim().equals(""))
-			throw new FormularioInvalidoException(AlertType.INFORMATION, "Ausência de preenchimento.", "O campo \"Porta\" não foi preenchido", this.textfieldPorta);
+			throw new FormularioInvalidoException(AlertType.INFORMATION, "Ausência de preenchimento.", "O campo \"Porta\" não foi preenchido.", this.textfieldPorta);
 		Pattern pattern = Pattern.compile("^(\\d)+$");
 		if (!pattern.matcher(this.textfieldPorta.getText().trim()).matches())
 			throw new FormularioInvalidoException(AlertType.ERROR, "Valor inválido.", "O valor do campo \"Porta\" é inválido.", this.textfieldPorta);
 		int porta = Integer.parseInt(this.textfieldPorta.getText().trim());
-		if ((porta < 0) || (porta > 65536))
-			throw new FormularioInvalidoException(AlertType.ERROR, "Valor inválido.", "A porta deve estar entre 0 e 65536.", this.textfieldPorta);
+		if ((porta < 0) || (porta > 65535))
+			throw new FormularioInvalidoException(AlertType.ERROR, "Valor inválido.", "A porta deve estar entre 0 e 65535.", this.textfieldPorta);
 		if ((this.checkboxPressionarTecla.isSelected()) && (this.comboboxTecla == null))
-			throw new FormularioInvalidoException(AlertType.INFORMATION, "Ausência de preenchimento.", "O campo \"Tecla\" não foi preenchido", this.comboboxTecla);
+			throw new FormularioInvalidoException(AlertType.INFORMATION, "Ausência de preenchimento.", "O campo \"Tecla\" não foi preenchido.", this.comboboxTecla);
  	}
 	
 	private EventHandler<ActionEvent> eventoCliqueCheckBoxPressionarTecla()
